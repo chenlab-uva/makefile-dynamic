@@ -20,10 +20,12 @@ BIN ?=		king
 CXX ?=		c++
 CXXFLAGS ?=	-O2 -I. -fopenmp
 # Path to atlas library (blas, cblas, lapack) needs to be specified
-BLASFLAGS ?=	-L$(LAPACK_LIB) -llapack -lblas -lcblas -latlas
+BLASFLAGS ?=	-L$(LAPACK_LIB) -llapack -lblas
 LIB ?=	-lm -lz
 OUTPUT = king-dynamic
-OBJ ?= *.cpp
+SRC = *.cpp
+HDR = *.h
+OBJ ?= $(SRC)
 
 #ifeq ($(SYS), MAC)
 #  GCC_GTEQ_43 := $(shell expr `g++ -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/'` \>= 40300)
@@ -42,8 +44,7 @@ ifdef WITH_LAPACK
 endif
 
 
-SRC = *.cpp
-HDR = *.h
+
 all : $(OUTPUT)
 $(OUTPUT) :
 	$(CXX) $(CXXFLAGS) -o $(OUTPUT) $(OBJ) $(LIB) 
