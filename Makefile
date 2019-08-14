@@ -1,7 +1,7 @@
-# Uncomment to enable compilation with lapack (functions --mds and --pca will work)
-# Path to atlas lib needs to be specified
-WITH_LAPACK = 1
-LAPACK_LIB = /usr/lib/x86_64-linux-gnu/atlas/
+# Uncomment to enable compilation with LAPACK (functions --mds and --pca will work)
+# Path to atlas needs to be specified
+#WITH_LAPACK = 1
+#LAPACK_LIB = /usr/lib/x86_64-linux-gnu/atlas/
 
 # should autodetect system
 SYS = UNIX
@@ -14,8 +14,7 @@ else
   endif
 endif
 
-# Allow these to be overridden by make arguments or env variables, so people
-# don't have to edit the Makefile to build in a different environment.
+# Variables that will be overwritten if building with LAPACK 
 BIN ?=		king
 CXX ?=		c++
 CXXFLAGS ?=	-O2 -I. -fopenmp
@@ -27,6 +26,7 @@ SRC = *.cpp
 HDR = *.h
 OBJ ?= $(SRC)
 
+# Not tested on MAC
 #ifeq ($(SYS), MAC)
 #  GCC_GTEQ_43 := $(shell expr `g++ -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/'` \>= 40300)
 #  ifeq "$(GCC_GTEQ_43)" "1"
@@ -42,8 +42,6 @@ ifdef WITH_LAPACK
 	LIB += $(BLASFLAGS)
 	OBJ = $(SRC:.cpp=.o)
 endif
-
-
 
 all : $(OUTPUT)
 $(OUTPUT) :
