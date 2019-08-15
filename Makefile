@@ -25,7 +25,7 @@ SRC = *.cpp
 HDR = *.h
 OBJ ?= $(SRC)
 
-# Not tested on MAC
+#Compilation on MAC
 ifeq ($(SYS), MAC)
 	BLASFLAGS ?= -framework Accelerate
 	LIB += -ldl -lstdc++
