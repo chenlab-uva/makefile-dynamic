@@ -28,7 +28,9 @@ OBJ ?= $(SRC)
 # Not tested on MAC
 ifeq ($(SYS), MAC)
 	BLASFLAGS ?= -framework Accelerate
-	LDFLAGS ?= -ldl
+	LIB += -ldl -lstdc++
+	CXX = gcc-9
+	CXXFLAGS ?= -O2 -fopenmp
 endif
 
 ifdef WITH_LAPACK
