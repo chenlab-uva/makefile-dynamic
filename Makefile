@@ -6,12 +6,12 @@
 # should autodetect system
 SYS = UNIX
 ifdef SystemRoot
-  SYS = WIN
+	SYS = WIN
 else
-  UNAME := $(shell uname)
-  ifeq ($(UNAME), Darwin)
-    SYS = MAC
-  endif
+	UNAME := $(shell uname)
+	ifeq ($(UNAME), Darwin)
+		SYS = MAC
+	endif
 endif
 
 # Variables that will be overwritten if building with LAPACK 
@@ -20,21 +20,17 @@ CXX ?=          c++
 CXXFLAGS ?=     -O2 -I. -fopenmp
 BLASFLAGS ?= $(LAPACK_LIB)
 LIB ?=  -lm -lz
-OUTPUT = king-dynamic
+OUTPUT = king
 SRC = *.cpp
 HDR = *.h
 OBJ ?= $(SRC)
 
 # Not tested on MAC
-#ifeq ($(SYS), MAC)
-#  GCC_GTEQ_43 := $(shell expr `g++ -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/'` \>= 40300)
-#  ifeq "$(GCC_GTEQ_43)" "1"
-#    CFLAGS ?= -Wall -O2 -flax-vector-conversions
-#  endif
-#  BLASFLAGS ?= -framework Accelerate
-#  LDFLAGS ?= -ldl
-#  ZLIB ?= ../zlib-1.2.11/libz.1.2.11.dylib
-#endif
+ifeq ($(SYS), MAC)
+	GCC_GTEQ_43 := $(shell expr `g++ -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/'` \>= 40300)
+	BLASFLAGS ?= -framework Accelerate
+	LDFLAGS ?= -ldl
+endif
 
 ifdef WITH_LAPACK
 	CXXFLAGS += -DWITH_LAPACK
